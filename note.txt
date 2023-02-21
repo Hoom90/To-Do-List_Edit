@@ -1,0 +1,27 @@
+/*
+const data = [{id:1, name:"activity",done:"false"}]
+localStorage.setItem("data", JSON.stringify(data))
+*/
+
+
+// let item = itemList.parentElement;
+  // let itemChild = item.children[0].textContent;
+  // item.remove();
+  // for (let i = 0; i < tasks.length; i++) {
+  //   if (tasks[i] == itemChild) {
+  //     tasks.splice(i, 1);
+  //   }
+  // }
+  // let tpTasks = [];
+  // for (let i = 0; i < tasks.length; i++) {
+  //   tpTasks.push(tasks[i]);
+  // }
+  // tasks.length = 0;
+  // localStorage.clear();
+  // for (let i = 0; i < tpTasks.length; i++) {
+  //   localStorage.setItem("activity" + i, JSON.stringify(tpTasks[i]));
+  // }
+  // for (let i = 0; i < tpTasks.length; i++) {
+  //   tasks.push(tpTasks[i]);
+  // }
+  // tpTasks = 0;

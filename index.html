@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link href="./Style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+                <img src="img/Person1.png" />
+                <input type="text" id="searchBox" placeholder="search">
+                <span><img src="img/logo.png"></h1>
+        </header>
+        <main>
+            <ul></ul>
+        </main>
+        <button id="createBtn">
+            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 7V17M7 12H17" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+    </div>
+
+    <div id="modal">
+        <main>
+            <h1>افزودن یک وظیفه جدید</h1>
+            <div>
+                <input type="text" id="activity" placeholder="نام فعالیت">
+            </div>
+            <div>
+                <button id="closeBtn">انصراف</button>
+                <button id="saveBtn">ثبت</button>
+            </div>
+        </main>
+    </div>
+
+    <ul id="optionList">
+
+    </ul>
+</body>
+<script src="./main.js"></script>
+
+</html>
