@@ -1,41 +1,65 @@
 const createBtn = document.getElementById("createBtn");
-const saveBtn = document.getElementById("saveBtn");
-const closeBtn = document.getElementById("closeBtn");
 const searchBox = document.getElementById("searchBox");
 const listContainer = document.querySelector("ul");
-const inputForm = document.getElementById("activity");
-const optionList = document.getElementById("optionList")
 let tasks = readFromLocalStorage();
 
 initiate();
 
-createBtn.addEventListener("click", createForm);
-closeBtn.addEventListener("click", closeForm);
-saveBtn.addEventListener("click", saveForm);
+createBtn.addEventListener("click", () => {openForm('create')} );
 searchBox.addEventListener("keyup", search);
 
 //This Method is The First Function To Read To Fill 'tasks[]'
 function initiate() {
   renderList(tasks);
 }
+/*
+*
+*             Forms Initilizers
+*
+*/
 //This Method is Called When Create Button is Clicked
-function createForm(e) {
-  let container = document.getElementById("modal");
-  if (container.style.display == "block") container.style.display = "none";
+function openForm(formName) {
+  let container
+  if(formName === 'options'){
+    container = document.getElementById("optionList");
+  }
+  else{
+    container = document.getElementById("modal");
+    if(formName === 'create'){
+      createCreateForm()
+    }
+    if(formName === 'edit'){
+      createEditForm()
+    }
+  }
+  if (container.style.display == "block") {container.replaceChildren(); container.style.display = "none";}
   else container.style.display = "block";
 }
 //This Method is Called When Close Button is Clicked
-function closeForm(e) {
-  let container = document.getElementById("modal");
+function closeForm(formName) {
+  let container 
+  if (formName === 'opstions') {
+    container = document.getElementById("optionList");
+    optionList.replaceChildren();
+  } else {
+    container = document.getElementById("modal");
+    if (formName === 'create') {
+      document.getElementById("activity").value = "";
+    }
+    if (formName === 'edit') {
+      document.getElementById("activityId").value = "";
+      document.getElementById("activity").value = "";
+    }
+  }
   container.style.display = "none";
 }
 //This Method is Called When Save Button is Clicked
-function saveForm(e) {
-  if (inputForm.value === "") return closeForm();
+function saveForm() {
+  if (document.getElementById("activity").value === "") return closeForm('create');
 
   const newTask = {
     id: Date.now(),
-    data: inputForm.value,
+    data: document.getElementById("activity").value,
     status: false,
   };
 
@@ -45,10 +69,13 @@ function saveForm(e) {
 
   saveToLocalStorage(tasks);
 
-  closeForm();
+  closeForm('create');
 }
 function editForm(){
-  if (inputForm.value === "") return closeForm();
+  if (document.getElementById("activity").value === "") return closeForm('edit');
+
+  let id = document.getElementById("activityId")
+  console.log(id);
 
   let filterdList = tasks.filter((task) => task.id !== id);
 
@@ -60,7 +87,7 @@ function editForm(){
 
   const newTask = {
     id: id,
-    data: inputForm.value,
+    data: document.getElementById("activity").value,
     status: item.status,
   };
 
@@ -70,23 +97,90 @@ function editForm(){
 
   saveToLocalStorage(tasks);
 
-  closeForm();
+  closeForm('edit');
 }
-function closeOptions(){
-  let container = document.getElementById("optionList");
-  optionList.replaceChildren()
-  container.style.display ="none"
-}
-function openOptions(item){
-  let container = document.getElementById("optionList");
-  if (container.style.display == "block") {container.style.display = "none";optionList.replaceChildren()}
-  else container.style.display = "block";
-}
+/*
+*
+*         Form Creation
+*
+*/
+//This Method creates the Create Form
+function createCreateForm(){
+  let innerModal = document.createElement("div")
+  let modalTitle = document.createElement("h1")
+  let contentDiv = document.createElement("div")
+  let dataInput = document.createElement("input")
+  let buttonDiv = document.createElement("div")
+  let closeButton = document.createElement("button")
+  let saveButton = document.createElement("button")
+  
+  
+  innerModal.setAttribute('class','innerModal')
+  dataInput.setAttribute('type','text')
+  dataInput.setAttribute('id','activity')
+  dataInput.setAttribute('placeholder','نام فعالیت')
+  closeButton.setAttribute('id','closeBtn')
+  saveButton.setAttribute('id','saveBtn')
+  
+  saveButton.addEventListener('click' , () => {saveForm()})
+  closeButton.addEventListener('click', () =>{closeForm('close')})
 
-function createOption(item){
-  let listItem1 = document.createElement("li")
-  let listItem2 = document.createElement("li")
-  let listItem3 = document.createElement("li")
+  modalTitle.innerText = "افزودن یک وظیفه جدید"
+  closeButton.innerText = "انصراف"
+  saveButton.innerText = "ثبت"
+
+  innerModal.appendChild(modalTitle)
+  contentDiv.appendChild(dataInput)
+  buttonDiv.appendChild(closeButton)
+  buttonDiv.appendChild(saveButton)
+  innerModal.appendChild(contentDiv)
+  innerModal.appendChild(buttonDiv)
+  document.getElementById("modal").appendChild(innerModal)
+}
+//This Method creates the Edit Form
+function createEditForm(){
+  let innerModal = document.createElement("div")
+  let modalTitle = document.createElement("h1")
+  let contentDiv = document.createElement("div")
+  let idInput = document.createElement("input") 
+  let dataInput = document.createElement("input")
+  let buttonDiv = document.createElement("div")
+  let closeButton = document.createElement("button")
+  let editButton = document.createElement("button")
+
+
+  innerModal.setAttribute('class','innerModal')
+  idInput.setAttribute('type','hidden')
+  idInput.setAttribute('id','activityId')
+  dataInput.setAttribute('type','text')
+  dataInput.setAttribute('id','activity')
+  dataInput.setAttribute('placeholder','نام فعالیت')
+  closeButton.setAttribute('id','closeBtn')
+  editButton.setAttribute('id','editBtn')
+
+  editButton.addEventListener('click' , () => {editForm()})
+  closeButton.addEventListener('click', () =>{closeForm('close')})
+
+  modalTitle.innerText = "ویرایش فعالیت"
+  closeButton.innerText = "انصراف"
+  editButton.innerText = "ذخیره"
+
+
+  innerModal.appendChild(modalTitle)
+  contentDiv.appendChild(idInput)
+  contentDiv.appendChild(dataInput)
+  buttonDiv.appendChild(closeButton)
+  buttonDiv.appendChild(editButton)
+  innerModal.appendChild(contentDiv)
+  innerModal.appendChild(buttonDiv)
+  
+  document.getElementById("modal").appendChild(innerModal);
+}
+//This Method creates the item Option Form
+function createOptionForm(item){
+  let listItem1 = document.createElement("div")
+  let listItem2 = document.createElement("div")
+  let listItem3 = document.createElement("div")
   let img1 = document.createElement("img")
   let img2 = document.createElement("img")
   let img3 = document.createElement("img")
@@ -95,11 +189,12 @@ function createOption(item){
   img2.src="img/trash.png"
   img3.src="img/close.png"
 
+
   listItem1.addEventListener("click", () => editHandle(item.id));
   listItem2.addEventListener("click", () => removeHandle(item.id));
 
   listItem3.addEventListener("click",()=>{
-    closeOptions()
+    closeForm(3)
   })
   
   listItem1.appendChild(img1)
@@ -110,9 +205,12 @@ function createOption(item){
   optionList.appendChild(listItem2)
   optionList.appendChild(listItem1)
 }
-
+/*
+*
+*             Render
+*
+*/
 //This Method initiates Items in Main Page
-
 function renderList(tasks) {
 listContainer.replaceChildren()
 
@@ -122,7 +220,11 @@ listContainer.replaceChildren()
     listContainer.appendChild(newTaskEl);
   });
 }
-
+/*
+*
+*               Create | Delete | Edit
+*
+*/
 //This Method Creates a New Item in Main Page
 function createItem(item) {
   let li = document.createElement("li");
@@ -136,8 +238,8 @@ function createItem(item) {
 
 
   optionBtn.addEventListener("click", ()=>{
-    createOption(item);
-    openOptions();
+    createOptionForm(item);
+    openForm('options');
   });
   titleSpan.addEventListener("click", () => {
     itemClick(item);
@@ -159,25 +261,25 @@ function removeHandle(id) {
   document.querySelector(`#task-${id}`).remove();
 
   saveToLocalStorage(filterdList);
-  closeOptions();
+  closeForm();
 }
+//This Method Updates Selected Item in Main Page
 function editHandle(id){
-  let container = document.getElementById("modal");
-  if (container.style.display == "block") container.style.display = "none";
-  else container.style.display = "block";
 
+  openForm('edit')
 
   let item = tasks.filter((task) => (task.id === id) !== -1);
   if (item != null) {
+    document.getElementById("activityId").value = item[0].id
     document.getElementById("activity").value = item[0].data;
   }
 }
-
-
-
-
-
-
+/*
+*
+*
+*           FEATURE >> Search | Check
+*
+*/
 //This Method is Called When Search-Box is Clicked
 function search() {
   // Declare letiables
@@ -206,10 +308,11 @@ function itemClick(item) {
   }
   saveToLocalStorage(tasks);
 }
-
-
-
-
+/*
+*
+*                LOCAL STORAGE >> set | get
+*
+*/
 //This Method Saves To Storage
 function saveToLocalStorage(tasks) {
   localStorage.setItem("tasks", JSON.stringify(tasks));

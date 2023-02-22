@@ -105,10 +105,10 @@ main ul li img {
     width: 100%;
     height: 100%;
     box-shadow: 0px 0px 1px black;
-    z-index: 1;
+    z-index: 99;
     background-color: rgba(0, 0, 0, 0.7);
 }
-#modal main{
+#modal .innerModal{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -120,25 +120,25 @@ main ul li img {
     left: 30%;
     top: 10%;
 }
-#modal main div{
+#modal .innerModal div{
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     margin-top: 30px;
     margin-bottom: 30px;
 }
-#modal main div input{
+#modal .innerModal div input{
     width: 100%;
     border: 0;
     padding: 10px;
     background-color: transparent;
 }
-#modal main div button{
+#modal .innerModal div button{
     padding: 10px 50px;
     border: 0;
     color:white;
     border-radius: 5px;
     cursor: pointer;
 }
-#modal main div button:hover{
+#modal .innerModal div button:hover{
     box-shadow: 0px 0px 3px black;
 }
 #modal #closeBtn{
@@ -146,6 +146,10 @@ main ul li img {
     color: black;
 }
 #modal #saveBtn{
+    float: left;
+    background-color: #2196f3;
+}
+#modal #editBtn{
     float: left;
     background-color: #2196f3;
 }
@@ -161,25 +165,30 @@ main ul li img {
     left: 1%;
     background-color: white;
     width: 98%;
-    z-index: 98;
+    z-index: 97;
     box-shadow: 0px 0px 5px rgb(97, 97, 97);
     border-radius: 5px;
 }
-#optionList li{
+#optionList div{
     display: inline-block;
     padding: 10px;
 }
 #optionList img{
     width: 30px;
     cursor: pointer;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+#optionList img:hover{
+    box-shadow: 0px 0px 10px rgb(0, 88, 175);
 }
 @media (width <= 800px){
-    #modal main{
+    #modal .innerModal{
         left: 1%;
         top: 10%;
         width: 98%;
     }
-    main ul li{
+    .innerModal ul li{
         width: 100%;
         min-height: 60px;
     }
@@ -208,7 +217,7 @@ main ul li img {
         bottom: 5%;
         left: 5%;
         box-shadow: 0px 0px 5px rgb(97, 97, 97);
-        z-index: 99;
+        z-index: 98;
     }
     #createBtn img{
         display: block;
